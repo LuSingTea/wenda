@@ -28,18 +28,20 @@ import java.util.Date;
 @Aspect
 @Component
 public class LogAspect {
+    
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+
     @Before("execution(* com.howie.wen.controller.indexController.*(..))")
-    public void beforeMethod(JoinPoint joinPoint){
+    public void beforeMethod(JoinPoint joinPoint) {
         StringBuilder sc = new StringBuilder();
-        for(Object arg : joinPoint.getArgs()){
-            sc.append("arg" + arg.toString() +"|");
+        for (Object arg : joinPoint.getArgs()) {
+            sc.append("arg" + arg.toString() + "|");
         }
         logger.info("before method" + sc.toString());
     }
 
     @After("execution(* com.howie.wen.controller.indexController.*(..))")
-    public void afterMethod(){
+    public void afterMethod() {
         logger.info("after method" + new Date());
     }
 }

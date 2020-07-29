@@ -15,18 +15,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EventProducer {
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("jedisAdapter")
     JedisAdapter jedisAdapter;
+    
 
     /**
+     * @return
      * @Author HowieLee
      * @Description //TODO 事件的生产者
      * @Date 20:48 1/14/2019
-     * @Param 
-     * @return 
+     * @Param
      **/
-    
+
     public boolean fireEvent(EventModel eventModel) {
         try {
             String json = JSONObject.toJSONString(eventModel);

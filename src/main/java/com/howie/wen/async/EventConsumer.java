@@ -1,7 +1,6 @@
 package com.howie.wen.async;
 
 import com.alibaba.fastjson.JSON;
-import com.howie.wen.controller.CommentController;
 import com.howie.wen.util.JedisAdapter;
 import com.howie.wen.util.RedisKeyUtil;
 import org.junit.platform.commons.logging.Logger;
@@ -14,12 +13,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * @Author:HowieLee
@@ -28,20 +25,21 @@ import java.util.concurrent.BlockingQueue;
  * @version:1.0
  */
 @Service
-public class EventConsumer implements InitializingBean ,ApplicationContextAware {
+public class EventConsumer implements InitializingBean, ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(EventConsumer.class);
     private Map<EventType, List<EventHandler>> config = new HashMap<EventType, List<EventHandler>>();
     private ApplicationContext applicationContext;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("jedisAdapter")
     JedisAdapter jedisAdapter;
+
     /**
+     * @return
      * @Author HowieLee
      * @Description //TODO 消费者函数
      * @Date 20:46 1/14/2019
      * @Param
-     * @return
      **/
 
     @Override
@@ -59,10 +57,11 @@ public class EventConsumer implements InitializingBean ,ApplicationContextAware 
                 }
             }
         }
+        
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(true) {
+                while (true) {
                     String key = RedisKeyUtil.getEventQueueKey();
                     List<String> events = jedisAdapter.brpop(0, key);
 

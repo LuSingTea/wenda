@@ -6,12 +6,13 @@ package com.howie.wen.async;
  * @Description:com.howie.wen.async
  * @version:1.0
  */
+
 /**
  * @Author HowieLee
  * @Description //TODO 定义实体的类型
  * @Date 20:48 1/14/2019
- * @Param 
- * @return 
+ * @Param
+ * @return
  **/
 
 public enum EventType {
@@ -23,6 +24,12 @@ public enum EventType {
     UNFOLLOW(5);
 
     private int value;
-    EventType(int value) { this.value = value; }
-    public int getValue() { return value; }
+
+    EventType(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }
