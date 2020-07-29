@@ -26,32 +26,31 @@ import java.util.Random;
  */
 @Controller
 public class SettingController {
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("wendaService")
     WendaService wendaService;
 
-    @RequestMapping(path = {"/setting"},method = {RequestMethod.GET})
+    @RequestMapping(path = {"/setting"}, method = {RequestMethod.GET})
     @ResponseBody
-    public String index(HttpSession httpSession){
+    public String index(HttpSession httpSession) {
         return "Setting OK. " + wendaService.getMessage(1);
     }
-
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("userDAO")
     UserDAO userDAO;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("questionDAO")
     QuestionDAO questionDAO;
 
-//	@WebAppConfiguration
-    @RequestMapping(path = {"/init"},method = {RequestMethod.GET})
+    //	@WebAppConfiguration
+    @RequestMapping(path = {"/init"}, method = {RequestMethod.GET})
     @ResponseBody
     public String initDatabase() {
         Random random = new Random();
 
-        for(int i = 0 ; i < 15 ; i++){
+        for (int i = 0; i < 15; i++) {
             User user = new User();
             user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", random.nextInt(1000)));
             user.setName(String.format("USER%d", i));

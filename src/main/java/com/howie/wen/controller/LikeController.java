@@ -25,19 +25,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class LikeController {
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("likeService")
     LikeService likeService;
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("hostHolder")
     HostHolder hostHolder;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("commentService")
     CommentService commentService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("eventProducer")
     EventProducer eventProducer;
 

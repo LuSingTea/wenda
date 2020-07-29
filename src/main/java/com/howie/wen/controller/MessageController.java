@@ -34,15 +34,15 @@ import java.util.List;
 public class MessageController {
     private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("messageService")
     MessageService messageService;
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("userService")
     UserService userService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("hostHolder")
     HostHolder hostHolder;
 
@@ -61,7 +61,7 @@ public class MessageController {
                 vo.set("unread", messageService.getConvesationUnreadCount(localUserId, msg.getConversationId()));
                 conversations.add(vo);
             }
-                model.addAttribute("conversations", conversations);
+            model.addAttribute("conversations", conversations);
         } catch (Exception e) {
             logger.error("获取站内信列表失败" + e.getMessage());
         }
@@ -82,7 +82,7 @@ public class MessageController {
                 }
                 vo.set("headUrl", user.getHeadUrl());
                 vo.set("userId", user.getId());
-                messageService.updateConvesationUnread(msg.getConversationId(),1);
+                messageService.updateConvesationUnread(msg.getConversationId(), 1);
                 //vo.set("unread", 1);
                 messages.add(vo);
             }

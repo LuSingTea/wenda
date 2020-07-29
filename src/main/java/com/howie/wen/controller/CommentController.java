@@ -26,28 +26,26 @@ import java.util.Date;
 @Controller
 public class CommentController {
     private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
-
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("hostHolder")
     HostHolder hostHolder;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("commentService")
     CommentService commentService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("questionService")
     QuestionService questionService;
 
 
-
     /**
+     * @return
      * @Author HowieLee
      * @Description //TODO 增加评论
      * @Date 20:53 1/14/2019
      * @Param
-     * @return
      **/
 
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})

@@ -4,44 +4,46 @@ import com.howie.wen.async.EventModel;
 import com.howie.wen.async.EventProducer;
 import com.howie.wen.async.EventType;
 import com.howie.wen.model.*;
-import com.howie.wen.service.*;
-import com.howie.wen.util.RedisKeyUtil;
+import com.howie.wen.service.CommentService;
+import com.howie.wen.service.FollowService;
+import com.howie.wen.service.QuestionService;
+import com.howie.wen.service.UserService;
 import com.howie.wen.util.WendaUtil;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
 public class FollowController {
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("followService")
     FollowService followService;
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("commentService")
     CommentService commentService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("questionService")
     QuestionService questionService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("userService")
     UserService userService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("hostHolder")
     HostHolder hostHolder;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("eventProducer")
     EventProducer eventProducer;
 

@@ -25,35 +25,34 @@ import java.util.Date;
 @Component
 public class PassportInterceptor implements HandlerInterceptor {
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("loginTicketDAO")
     LoginTicketDAO loginTicketDAO;
 
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("userDAO")
     UserDAO userDAO;
-
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("hostHolder")
     HostHolder hostHolder;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String ticket = null;
-        if(httpServletRequest.getCookies() != null){
-            for(Cookie cookie : httpServletRequest.getCookies()){
-                if(cookie.getName().equals("ticket")){
+        if (httpServletRequest.getCookies() != null) {
+            for (Cookie cookie : httpServletRequest.getCookies()) {
+                if (cookie.getName().equals("ticket")) {
                     ticket = cookie.getValue();
                     break;
                 }
             }
         }
 
-        if(ticket != null){
+        if (ticket != null) {
             LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
-            if(loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0){
+            if (loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0) {
                 return true;
             }
 
@@ -68,8 +67,8 @@ public class PassportInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
 
-        if(modelAndView != null){
-            modelAndView.addObject("user",hostHolder.getUser());
+        if (modelAndView != null) {
+            modelAndView.addObject("user", hostHolder.getUser());
         }
     }
 

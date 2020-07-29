@@ -4,7 +4,6 @@ import com.howie.wen.model.User;
 import com.howie.wen.service.WendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -40,46 +39,47 @@ public class indexController {
 //    public String index(HttpSession httpSession){
 //        return wendaService.getMessage(2) + "Hello Howie " + httpSession.getAttribute("msg");
 //    }
+    
     /**
+     * @return
      * @Author HowieLee
      * @Description //设置一个profile页，将userId可以解析出来,后面为请求参数的形式来传递
      * @Date 11:09 1/5/2019
      * @Param
-     * @return
      **/
-
 
 
     @RequestMapping(path = {"/profile/{groupId}/{userId}"})
     @ResponseBody
     public String profile(@PathVariable("userId") int userId,
                           @PathVariable("groupId") String groupId,
-                          @RequestParam(value = "type",defaultValue = "type") int type,
-                          @RequestParam(value = "key",defaultValue = "value",required = false) String key){
-        return String.format("Profile Page of %s/%d, type:%d key:%s",groupId,userId,type,key);
+                          @RequestParam(value = "type", defaultValue = "type") int type,
+                          @RequestParam(value = "key", defaultValue = "value", required = false) String key) {
+        return String.format("Profile Page of %s/%d, type:%d key:%s", groupId, userId, type, key);
     }
 
 
     @RequestMapping(path = {"/vm"})
-    public String template(Model model){
-        model.addAttribute("value1","vvvv1");
-        List<String> colors = Arrays.asList(new String[]{"RED","GREEN","BLUE"});
-        model.addAttribute("colors",colors);
+    public String template(Model model) {
+        model.addAttribute("value1", "vvvv1");
+        List<String> colors = Arrays.asList(new String[]{"RED", "GREEN", "BLUE"});
+        model.addAttribute("colors", colors);
 
-        Map<String,String> map = new HashMap<>();
-        for(int i = 0 ; i < 4 ; i++){
-            map.put(String.valueOf(i),String.valueOf(i * i));
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < 4; i++) {
+            map.put(String.valueOf(i), String.valueOf(i * i));
         }
-        model.addAttribute("map",map);
-        model.addAttribute("user",new User("LEE"));
+        model.addAttribute("map", map);
+        model.addAttribute("user", new User("LEE"));
         return "home";
     }
+
     /**
+     * @return
      * @Author HowieLee
      * @Description //有关session和request
      * @Date 20:13 1/5/2019
      * @Param
-     * @return
      **/
 
     @RequestMapping(path = {"/request"})
@@ -91,12 +91,12 @@ public class indexController {
         StringBuilder sc = new StringBuilder();
         sc.append("COOKIEVALUE" + sessionId);
         Enumeration<String> headerNmaes = request.getHeaderNames();
-        while(headerNmaes.hasMoreElements()){
+        while (headerNmaes.hasMoreElements()) {
             String name = headerNmaes.nextElement();
             sc.append(name + ":" + request.getHeader(name) + "<br>");
         }
-        if(request.getCookies() != null){
-            for(Cookie cookie : request.getCookies()){
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
                 sc.append("Cookie" + cookie.getName() + "value" + cookie.getValue());
             }
         }
@@ -105,25 +105,25 @@ public class indexController {
         sc.append(request.getPathInfo() + "<br>");
         sc.append(request.getRequestURI() + "<br>");
 
-        response.addHeader("howieId","hello");
-        response.addCookie(new Cookie("username","howie"));
+        response.addHeader("howieId", "hello");
+        response.addCookie(new Cookie("username", "howie"));
         return sc.toString();
     }
 
     /**
+     * @return
      * @Author HowieLee
      * @Description //演示301和302的模式
      * @Date 20:13 1/5/2019
      * @Param
-     * @return
      **/
 
     @RequestMapping(path = {"/redirect/{code}"})
     public RedirectView Redirect(@PathVariable("code") int code,
-                                 HttpSession httpSession){
-        httpSession.setAttribute("msg"," jump from redirect");
-        RedirectView red = new RedirectView("/",true);
-        if(code == 301)
+                                 HttpSession httpSession) {
+        httpSession.setAttribute("msg", " jump from redirect");
+        RedirectView red = new RedirectView("/", true);
+        if (code == 301)
             red.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
         return red;
     }
@@ -131,23 +131,23 @@ public class indexController {
     @RequestMapping(path = {"/admin"})
     @ResponseBody
     public String admin(@RequestParam("key") String key) throws IllegalAccessException {
-        if("admin".equals(key)){
+        if ("admin".equals(key)) {
             return "hello admin";
         }
         throw new IllegalAccessException("参数不对");
     }
 
     /**
+     * @return
      * @Author HowieLee
      * @Description //专门处理异常的函数
      * @Date 20:09 1/5/2019
      * @Param
-     * @return
      **/
 
     @ExceptionHandler()
     @ResponseBody
-    public String error(Exception e){
+    public String error(Exception e) {
         return "error" + e.getMessage();
     }
 

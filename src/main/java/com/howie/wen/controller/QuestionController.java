@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,29 +25,28 @@ import java.util.List;
 public class QuestionController {
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("questionService")
     QuestionService questionService;
-
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("hostHolder")
     HostHolder hostHolder;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("userService")
     UserService userService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("commentService")
     CommentService commentService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("likeService")
     LikeService likeService;
 
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("followService")
     FollowService followService;
 

@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,24 +28,24 @@ import java.util.List;
 @Controller
 public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
-    @Autowired(required=false)
+    
+    @Autowired(required = false)
     @Qualifier("questionService")
     QuestionService questionService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("userService")
     UserService userService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("commentService")
     CommentService commentService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("followService")
     FollowService followService;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("hostHolder")
     HostHolder hostHolder;
 
@@ -84,7 +86,7 @@ public class HomeController {
 
     @RequestMapping(path = {"/search"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String regloginPage(Model model, @RequestParam(value = "q", required = false) String q) {
-        List<Question> question = questionService.getsearchquestion(q,0,15);
+        List<Question> question = questionService.getsearchquestion(q, 0, 15);
         List<ViewObject> questionss = new ArrayList<>();
         for (Question questio : question) {
             ViewObject vo = new ViewObject();
@@ -94,10 +96,9 @@ public class HomeController {
             vo.set("user", userService.getUser(questio.getUserId()));
             questionss.add(vo);
         }
-        model.addAttribute("questionss",questionss);
+        model.addAttribute("questionss", questionss);
         return "SearchPage";
     }
-
 
 
     @RequestMapping(path = {"/user/{userId}"}, method = {RequestMethod.GET, RequestMethod.POST})
