@@ -159,10 +159,11 @@
     	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1014) ~[spring-beans-4.2.6.RELEASE.jar:4.2.6.RELEASE]
     	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:545) ~[spring-beans-4.2.6.RELEASE.jar:4.2.6.RELEASE]
     	... 42 common frames omitted
-    
-    
-    java.lang.IllegalStateException: Failed to load ApplicationContext
-    
+
+
+​    
+​    java.lang.IllegalStateException: Failed to load ApplicationContext
+​    
     	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:124)
     	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:83)
     	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:117)
@@ -224,13 +225,13 @@
     @Autowired(required=false)
     @Qualifier("questionService")
     @QuestionService questionService;
-       
+
  然后在DAO层的注解中改变了如下代码：
 
     @Mapper
     @Component
     @Repository
-    
+
 2.Mybatis中报 `java.lang.NullPointerException`
 
 解决方式：将数据库、表、字段的字符编码都应该统一，最好设置成utf8-general_ci
@@ -312,11 +313,11 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	    	EventType(int value) {
 	       	 	this.value = value;
 	    	}
-	
+	    
 	    	public int getValue() {
 	        	return value;
 	    	}
-		}
+	    }
 
 - `EventModel`类
 
@@ -330,7 +331,7 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	
 	
 	    private Map<String, String> exts = new HashMap<>();
-	
+	    
 	    public EventModel() {
 	    }
 	
@@ -344,7 +345,7 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	    public EventModel(EventType type) {
 	        this.type = type;
 	    }
-	
+	    
 	    public String getExt(String key) {
 	        return exts.get(key);
 	    }
@@ -370,7 +371,7 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	        this.actorId = actorId;
 	        return this;
 	    }
-	
+	    
 	    public int getEntityType() {
 	        return entityType;
 	    }
@@ -402,7 +403,7 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	        this.entityOwnerId = entityOwnerId;
 	        return this;
 	    }
-	
+	    
 	    public Map<String, String> getExts() {
 	        return exts;
 	    }
@@ -423,41 +424,42 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 
 - `EventProducer`类
 
-		public class EventProducer {
-		    private final JedisAdapter jedisAdapter;
-		
-		
-		    @Autowired
-		    public EventProducer(JedisAdapter jedisAdapter) {
-		        this.jedisAdapter = jedisAdapter;
-		    }
-		
-		
-		    public boolean fireEvent(EventModel eventModel) {
-		        try {
-		            String json = JSONObject.toJSONString(eventModel);
-		            String key = RedisKeyUtil.getEventQueueKey();
-		            jedisAdapter.lpush(key, json);
-		            return true;
-		        } catch (Exception e) {
-		            return false;
-		        }
-		    }
-		}
+   public class EventProducer {
+   	    private final JedisAdapter jedisAdapter;
+   	
+   	
+   	    @Autowired
+   	    public EventProducer(JedisAdapter jedisAdapter) {
+   	        this.jedisAdapter = jedisAdapter;
+   	    }
+
+
+   ​	
+   	    public boolean fireEvent(EventModel eventModel) {
+   	        try {
+   	            String json = JSONObject.toJSONString(eventModel);
+   	            String key = RedisKeyUtil.getEventQueueKey();
+   	            jedisAdapter.lpush(key, json);
+   	            return true;
+   	        } catch (Exception e) {
+   	            return false;
+   	        }
+   	    }
+   	}
 
 - `EventConsumer`类
 
 	public class EventConsumer implements InitializingBean, ApplicationContextAware {
 
 	    private static Logger logger = LoggerFactory.getLogger(EventConsumer.class);
-	
+	    
 	    private Map<EventType, List<EventHandler>> config = new HashMap<>();
-	
+	    
 	    private ApplicationContext applicationContext;
 	
 	
 	    private final JedisAdapter jedisAdapter;
-	
+	    
 	    @Autowired
 	    public EventConsumer(JedisAdapter jedisAdapter) {
 	        this.jedisAdapter = jedisAdapter;
@@ -466,12 +468,12 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	
 	    @Override
 	    public void afterPropertiesSet() throws Exception {
-	
+	    
 	        Map<String, EventHandler> beans = applicationContext.getBeansOfType(EventHandler.class);
 	        if (beans != null) {
 	            for (Map.Entry<String, EventHandler> entry : beans.entrySet()) {
 	                List<EventType> eventTypes = entry.getValue().getSupportEventTypes();
-	
+	    
 	                for (EventType type : eventTypes) {
 	                    if (!config.containsKey(type)) {
 	                        config.put(type, new ArrayList<>());
@@ -488,7 +490,7 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	                while (true) {
 	                    String key = RedisKeyUtil.getEventQueueKey();
 	                    List<String> events = jedisAdapter.brpop(0, key);
-	
+	    
 	                    for (String message : events) {
 	                        if (message.equals(key)) {
 	                            continue;
@@ -498,18 +500,18 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	                            logger.error("不能识别的事件");
 	                            continue;
 	                        }
-	
+	    
 	                        for (EventHandler handler : config.get(eventModel.getType())) {
 	                            handler.doHandle(eventModel);
 	                        }
-	
+	    
 	                    }
 	                }
 	            }
 	        });
-	
+	    
 	        thread.start();
-	
+	    
 	    }
 	
 	
@@ -524,15 +526,15 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	public class LikeHandler implements EventHandler {
 
 	    private final MessageService messageService;
-	
+	    
 	    private final UserService userService;
-	
+	    
 	    @Autowired
 	    public LikeHandler(MessageService messageService, UserService userService) {
 	        this.messageService = messageService;
 	        this.userService = userService;
 	    }
-	
+	    
 	    @Override
 	    public void doHandle(EventModel model) {
 	        Message message = new Message();
@@ -545,7 +547,7 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 	        message.setConversationId(WendaUtil.SYSTEM_USERID + "_" + model.getEntityOwnerId());
 	        messageService.addMessage(message);
 	    }
-	
+	    
 	    @Override
 	    public List<EventType> getSupportEventTypes() {
 	        return Arrays.asList(EventType.LIKE);
@@ -557,19 +559,19 @@ JSP文件实际上执行的是JSP对应的Java类，简单来说就是把JSP的H
 在写事件处理的时候继承了`Spring`的`InitializingBean`接口,这个接口只有一个方法:
 
     public interface InitializingBean {
-
-	/**
-	 * Invoked by a BeanFactory after it has set all bean properties supplied
-	 * (and satisfied BeanFactoryAware and ApplicationContextAware).
-	 * <p>This method allows the bean instance to perform initialization only
-	 * possible when all bean properties have been set and to throw an
-	 * exception in the event of misconfiguration.
-	 * @throws Exception in the event of misconfiguration (such
-	 * as failure to set an essential property) or if initialization fails.
-	 */
-	void afterPropertiesSet() throws Exception;
-
-	}
+    
+    /**
+     * Invoked by a BeanFactory after it has set all bean properties supplied
+     * (and satisfied BeanFactoryAware and ApplicationContextAware).
+     * <p>This method allows the bean instance to perform initialization only
+     * possible when all bean properties have been set and to throw an
+     * exception in the event of misconfiguration.
+     * @throws Exception in the event of misconfiguration (such
+     * as failure to set an essential property) or if initialization fails.
+     */
+    void afterPropertiesSet() throws Exception;
+    
+    }
 
 我们要对某个bean进行自定义的初始化的时候,我们就可以让bean继承这个接口,然后在里面写上我们的业务逻辑,在Spring初始化bean的时候就会检查bean是否继承了InitializingBean接口,然后再执行afterPropertiesSet()方法.
 

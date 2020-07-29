@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HostHolder {
-    private static ThreadLocal<User> users = new ThreadLocal<User>();
+    private static ThreadLocal<User> users = new ThreadLocal<>();
 
     public User getUser() {
         return users.get();

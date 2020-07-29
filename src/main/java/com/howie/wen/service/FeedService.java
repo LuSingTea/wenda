@@ -11,14 +11,14 @@ import java.util.List;
 
 @Service
 public class FeedService {
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("feedDAO")
     FeedDAO feedDAO;
 
     public List<Feed> getUserFeeds(int maxId, List<Integer> userIds, int count) {
         return feedDAO.selectUserFeeds(maxId, userIds, count);
     }
-
+    
     public boolean addFeed(Feed feed) {
         feedDAO.addFeed(feed);
         return feed.getId() > 0;

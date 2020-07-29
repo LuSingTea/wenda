@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
-
 import java.util.List;
 
 /**
@@ -19,14 +18,13 @@ import java.util.List;
 @Service
 public class CommentService {
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("commentDAO")
     CommentDAO commentDAO;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     @Qualifier("sensitiveService")
     SensitiveService sensitiveService;
-
 
     public List<Comment> getCommentsByEntity(int entityId, int entityType) {
         return commentDAO.selectCommentByEntity(entityId, entityType);

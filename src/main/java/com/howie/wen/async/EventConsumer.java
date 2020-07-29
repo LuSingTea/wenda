@@ -28,7 +28,7 @@ import java.util.concurrent.BlockingQueue;
  * @version:1.0
  */
 @Service
-public class EventConsumer implements InitializingBean ,ApplicationContextAware{
+public class EventConsumer implements InitializingBean ,ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(EventConsumer.class);
     private Map<EventType, List<EventHandler>> config = new HashMap<EventType, List<EventHandler>>();
     private ApplicationContext applicationContext;
