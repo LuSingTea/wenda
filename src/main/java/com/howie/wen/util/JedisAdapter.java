@@ -2,7 +2,6 @@ package com.howie.wen.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.howie.wen.controller.CommentController;
 import com.howie.wen.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import redis.clients.jedis.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+
 /**
  * @Author:HowieLee
  * @Date:1/9/2019
@@ -29,7 +29,7 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public static void main(String[] argv) {
-        Jedis jedis = new Jedis("redis://localhost:6379/9");
+        Jedis jedis = new Jedis("redis://119.3.158.158:6379/9");
         jedis.flushDB();
 
         // get set
@@ -63,7 +63,7 @@ public class JedisAdapter implements InitializingBean {
         print(9, jedis.lindex(listName, 3));
         print(10, jedis.linsert(listName, BinaryClient.LIST_POSITION.AFTER, "a4", "xx"));
         print(10, jedis.linsert(listName, BinaryClient.LIST_POSITION.BEFORE, "a4", "bb"));
-        print(11, jedis.lrange(listName, 0 ,12));
+        print(11, jedis.lrange(listName, 0, 12));
 
         // hash
         String userKey = "userxx";
@@ -87,7 +87,7 @@ public class JedisAdapter implements InitializingBean {
         String likeKey2 = "commentLike2";
         for (int i = 0; i < 10; ++i) {
             jedis.sadd(likeKey1, String.valueOf(i));
-            jedis.sadd(likeKey2, String.valueOf(i*i));
+            jedis.sadd(likeKey2, String.valueOf(i * i));
         }
         print(20, jedis.smembers(likeKey1));
         print(21, jedis.smembers(likeKey2));
@@ -139,7 +139,7 @@ public class JedisAdapter implements InitializingBean {
         jedis.zrem(setKey, "b");
         print(43, jedis.zrange(setKey, 0, 10));
         jedis.zremrangeByLex(setKey, "(c", "+");
-        print(44, jedis.zrange(setKey, 0 ,2));
+        print(44, jedis.zrange(setKey, 0, 2));
 
         /*
         JedisPool pool = new JedisPool();
@@ -180,7 +180,7 @@ public class JedisAdapter implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        pool = new JedisPool("redis://localhost:6379/10");
+        pool = new JedisPool("redis://119.3.158.158:6379/10");
     }
 
     public long sadd(String key, String value) {
@@ -213,6 +213,7 @@ public class JedisAdapter implements InitializingBean {
         return 0;
     }
 
+    // 返回集合中元素的个数（基数）
     public long scard(String key) {
         Jedis jedis = null;
         try {
@@ -228,6 +229,7 @@ public class JedisAdapter implements InitializingBean {
         return 0;
     }
 
+    // 查看value是否在set中
     public boolean sismember(String key, String value) {
         Jedis jedis = null;
         try {
@@ -243,6 +245,7 @@ public class JedisAdapter implements InitializingBean {
         return false;
     }
 
+    // 阻塞式弹出
     public List<String> brpop(int timeout, String key) {
         Jedis jedis = null;
         try {
@@ -384,6 +387,7 @@ public class JedisAdapter implements InitializingBean {
         return null;
     }
 
+    // 返回排序集合的个数
     public long zcard(String key) {
         Jedis jedis = null;
         try {
@@ -399,6 +403,7 @@ public class JedisAdapter implements InitializingBean {
         return 0;
     }
 
+    // 返回排序集合中指定元素的的分数
     public Double zscore(String key, String member) {
         Jedis jedis = null;
         try {
