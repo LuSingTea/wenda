@@ -13,8 +13,6 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,6 +20,8 @@ import java.util.Properties;
 @Service
 public class MailSender implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(MailSender.class);
+
+
     private JavaMailSenderImpl mailSender;
 
     @Autowired(required=false)

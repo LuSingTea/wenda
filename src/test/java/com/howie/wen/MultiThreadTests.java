@@ -7,10 +7,12 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @Author:HowieLee
- * @Date:1/8/2019
- * @Description:com.howie.wen
- * @version:1.0
+ * 功能描述:
+ *
+ * @Param:
+ * @Return:
+ * @Author: a1725
+ * @Date: 2020/10/21 22:09
  */
 class MyThread extends Thread {
     private int tid;

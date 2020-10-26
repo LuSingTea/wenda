@@ -1,5 +1,6 @@
 package com.howie.wen.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @Description:com.howie.wen.model
  * @version:1.0
  */
-public class Question {
+public class Question implements Serializable {
     private int id;
     private String title;
     private String content;
